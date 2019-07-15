@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       user: {
-        username: "Corentin",
+        username: "BB",
         modules: [
           {
             id: 1,
