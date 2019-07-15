@@ -8,7 +8,6 @@
         id="input-group-1"
         label="Email address:"
         label-for="email"
-        description="We'll never share your email with anyone else."
       >
         <b-form-input
           id="email"
@@ -19,7 +18,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-2" label="Your Name:" label-for="name">
+      <b-form-group id="input-group-2" label="Student Name:" label-for="name">
         <b-form-input id="name" v-model="form.name" required placeholder="Enter name"></b-form-input>
       </b-form-group>
 
@@ -29,7 +28,10 @@
         label="Password:"
         label-for="password"
       >
-        <b-form-input id="password" type="password" required minlength="8" new-password placeholder="Enter password"></b-form-input>
+        <b-form-input id="password" type="password" required minlength="8" new-password placeholder="Enter password" aria-describedby="password-help-block"></b-form-input>
+        <b-form-text id="password-help-block">
+          Your password must be  at least 8 characters long.
+        </b-form-text>
       </b-form-group>
 
       <b-form-group id="input-group-4" label="Confirm Password:" label-for="confPassword">
@@ -37,6 +39,7 @@
       </b-form-group>
 
       <b-form-group 
+        label="Inscription to modules"
         id="input-group-5"
         v-bind:key="module.id"
         v-for="module in modules"
