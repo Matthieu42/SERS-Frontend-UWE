@@ -2,7 +2,7 @@
   <div>
     <h2>{{ user.username }} marks :</h2>
     <b-list-group>
-      <Module
+      <StudentModule
         v-for="module in user.modules"
         :key="module.id"
         :name="module.name"
@@ -14,11 +14,11 @@
 </template>
 
 <script>
-import Module from "~/components/Module";
+import StudentModule from "~/components/StudentModule";
 
 export default {
   components: {
-    Module
+    StudentModule
   },
   data() {
     return {
