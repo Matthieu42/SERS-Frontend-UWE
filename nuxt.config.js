@@ -1,6 +1,7 @@
 
 export default {
   mode: 'universal',
+  debug: true,
   /*
   ** Headers of the page
   */
@@ -16,8 +17,7 @@ export default {
     ]
   },
   env: {
-    frontUrl: process.env.FRONTEND_URL || 'http://localhost:3000',
-    backUrl: process.env.BACKEND_URL || 'http://localhost:8000'
+    frontUrl: process.env.FRONTEND_URL || 'http://localhost:3000/api/',
   },
   /*
   ** Customize the progress-bar color
@@ -42,7 +42,16 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
+    '@nuxtjs/proxy',
   ],
+  proxy: {
+    '/api': {
+      target: 'http://localhost:8080',
+      pathRewrite: {
+        '^/api' : '/'
+        }
+      }
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options

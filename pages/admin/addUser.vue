@@ -98,9 +98,8 @@ export default {
       }
     };
     try {
-      const res = await axios.get(process.env.backUrl + "/modules", config);
+      const res = await axios.get(process.env.frontUrl + "/modules", config);
       this.modules = res.data;
-      console.log(this.modules)
     } catch (error) {
       console.error(error);
     }
@@ -108,28 +107,17 @@ export default {
   methods: {
     onSubmit: evt => {
       evt.preventDefault();
-      console.log(this.form);
-    },
-    confPassword: confPassword => {
-      const password = document.getElementById("password").value;
-      if (password != confPassword) {
-        document.getElementById("confPassword").style.border = "red";
-      } else {
-        document.getElementById("confPassword").style.border = "none";
-      }
     }
   },
   computed: {
-    // TODO
-    passwordLength: () => {
-      // return this.form.password.length > 8;
+    passwordLength: (a) => {
+      return a.form.password.length > 8;
     },
-    // TODO
-    passwordMatch: () => {
-      // return (
-      //   this.form.confPassword.length > 8 &&
-      //   this.form.password === this.form.confPassword
-      // );
+    passwordMatch: (a) => {
+      return (
+        a.form.confPassword.length > 8 &&
+        a.form.password === a.form.confPassword
+      );
     }
   }
 };

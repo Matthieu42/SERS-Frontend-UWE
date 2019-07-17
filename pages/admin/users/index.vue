@@ -18,7 +18,8 @@
     <b-table
       show-empty
       stacked="md"
-      striped hover
+      striped
+      hover
       :items="users"
       :fields="fields"
       :filter="filter"
@@ -79,13 +80,12 @@ export default {
   async created() {
     const config = {
       headers: {
-        Accept: "application/json,"
+        Accept: "application/json"
       }
     };
     try {
-      const res = await axios.get(process.env.backUrl + "/users", config);
+      const res = await axios.get(process.env.frontUrl + "/users", config);
       this.users = res.data;
-      console.log(this.users);
     } catch (error) {
       console.error(error);
     }

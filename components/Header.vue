@@ -13,7 +13,8 @@
         </b-navbar-nav>
         <b-navbar-nav>
           <b-nav-item>
-          <nuxt-link to="/admin/users">Students</nuxt-link></b-nav-item>
+            <nuxt-link to="/admin/users">Students</nuxt-link>
+          </b-nav-item>
         </b-navbar-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">

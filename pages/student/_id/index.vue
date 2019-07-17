@@ -1,8 +1,7 @@
 <template>
   <div>
-    <h2>{{ name }}</h2>
-    email : {{ email }}
-    average : {{ average }}
+    <h2>{{ user.name }}</h2>
+    email : {{ user.email }}
     <b-list-group>
       <StudentModule
         v-for="module in modules"
@@ -25,10 +24,11 @@ export default {
   },
   data() {
     return {
-      id: "1",
-      name: "cocodu34",
-      email: "cocodu34@ibm.com",
-      average: 34,
+      user: {
+        id: "1",
+        name: "cocodu34",
+        email: "cocodu34@ibm.com",
+      },
       modules: [
         {
           id: 1,
@@ -65,6 +65,27 @@ export default {
         }
       ]
     };
+  },
+  async created() {
+    const config = {
+      headers: {
+        Accept: "application/json"
+      }
+    };
+
+    try {
+      const res = await axios.get(process.env.frontUrl + "/user/" + $route.params.id, config);
+      this.user = res.data;
+    } catch (error) {
+      console.error(error);
+    }
+
+    try {
+      const res = await axios.get(process.env.frontUrl + "/NotesExams/user/" + $route.params.id, config);
+      this.modules = res.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 };
 </script>
