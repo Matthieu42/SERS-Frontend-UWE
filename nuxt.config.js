@@ -15,6 +15,10 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  env: {
+    frontUrl: process.env.FRONTEND_URL || 'http://localhost:3000',
+    backUrl: process.env.BACKEND_URL || 'http://localhost:8000'
+  },
   /*
   ** Customize the progress-bar color
   */

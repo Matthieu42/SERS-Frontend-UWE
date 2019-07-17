@@ -18,12 +18,15 @@
     <b-table
       show-empty
       stacked="md"
-      :items="items"
+      striped hover
+      :items="users"
       :fields="fields"
       :filter="filter"
       :tbody-tr-class="needResit"
     >
-      <template slot="name" slot-scope="row"><nuxt-link :to="'/student/' + row.value.id">{{ row.value }}</nuxt-link></template>
+      <template slot="name" slot-scope="row">
+        <nuxt-link :to="'/student/' + row.value.id">{{ row.value }}</nuxt-link>
+      </template>
 
       <template slot="email" slot-scope="row">{{ row.value }}</template>
 
@@ -54,6 +57,7 @@
 
 <script>
 import StudentModule from "~/components/StudentModule";
+import axios from "axios";
 
 export default {
   components: {
@@ -61,142 +65,30 @@ export default {
   },
   data() {
     return {
-      items: [
-        {
-          id: 1,
-          average: 40,
-          name: "Corentin Grard",
-          address: "regokper",
-          email: "dgkorg@rdgok.com",
-          modules: [
-            {
-              id: 1,
-              name: "Module 1",
-              acronym: "MD1",
-              marks: {
-                average: 23,
-                assignment: 50,
-                lab_Tests: 12,
-                written_Exam: 84
-              }
-            },
-            {
-              id: 2,
-              name: "Module 2",
-              acronym: "MD2",
-              marks: {
-                average: 99,
-                assignment: 24,
-                lab_Tests: 76,
-                written_Exam: 2
-              }
-            },
-            {
-              id: 3,
-              name: "Module 3",
-              acronym: "MD3",
-              marks: {
-                average: 50,
-                assignment: 52,
-                lab_Tests: 14,
-                written_Exam: 74
-              }
-            }
-          ]
-        },
-        {
-          id: 2,
-          average: 21,
-          name: "Jean Michel",
-          address: "regokper",
-          email: "dgkorg@rdgok.com"
-        },
-        {
-          id: 3,
-          average: 9,
-          name: "Jessy Chevanas",
-          address: "regokper",
-          email: "dgkorg@rdgok.com"
-        },
-        {
-          id: 4,
-          average: 89,
-          name: "Matthieu Tinnes",
-          address: "regokper",
-          email: "dgkorg@rdgok.com"
-        },
-        {
-          id: 5,
-          average: 38,
-          name: "SEOIJGSG",
-          address: "regokper",
-          email: "dgkorg@rdgok.com"
-        },
-        {
-          id: 6,
-          average: 27,
-          name: "IOJDG",
-          address: "regokper",
-          email: "dgkorg@rdgok.com"
-        },
-        {
-          id: 7,
-          average: 40,
-          name: "RIOJS",
-          address: "regokper",
-          email: "dgkorg@rdgok.com"
-        },
-        {
-          id: 8,
-          average: 87,
-          name: "dpkorg",
-          address: "regokper",
-          email: "dgkorg@rdgok.com"
-        },
-        {
-          id: 9,
-          average: 26,
-          name: "fntkomg",
-          address: "regokper",
-          email: "dgkorg@rdgok.com"
-        },
-        {
-          id: 10,
-          average: 22,
-          name: "rhtopk",
-          address: "regokper",
-          email: "dgkorg@rdgok.com"
-        },
-        {
-          id: 11,
-          average: 38,
-          name: "dfbko",
-          address: "regokper",
-          email: "dgkorg@rdgok.com"
-        },
-        {
-          id: 12,
-          average: 29,
-          name: "kpsgrop",
-          address: "regokper",
-          email: "dgkorg@rdgok.com"
-        }
-      ],
+      users: [],
       fields: [
         { key: "name", label: "Person Full name", sortable: true },
         { key: "email", label: "Email" },
         { key: "address", label: "Address" },
-        {
-          key: "average",
-          label: "Average",
-          sortable: true,
-          class: "text-center"
-        },
         { key: "actions", label: "Actions" }
       ],
       totalRows: 1,
       filter: null
     };
+  },
+  async created() {
+    const config = {
+      headers: {
+        Accept: "application/json,"
+      }
+    };
+    try {
+      const res = await axios.get(process.env.backUrl + "/users", config);
+      this.users = res.data;
+      console.log(this.users);
+    } catch (error) {
+      console.error(error);
+    }
   },
   computed: {
     sortOptions() {
@@ -209,9 +101,10 @@ export default {
     }
   },
   methods: {
-    needResit(item, type) {
-      if (!item) return;
-      if (item.average < 40) return "table-danger";
+    //TODO
+    needResit(user, type) {
+      if (!user) return;
+      if (user.average < 40) return "table-danger";
     }
   }
 };

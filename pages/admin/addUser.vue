@@ -64,6 +64,7 @@
           v-model="form.modules"
           :options="modules"
           name="Inscription to modules"
+          text-field="title"
         ></b-form-checkbox-group>
       </b-form-group>
 
@@ -73,6 +74,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -85,32 +88,25 @@ export default {
         confPassword: "",
         modules: []
       },
-      modules: [
-        {
-          id: 1,
-          text: "Module 1",
-          acronym: "M1"
-        },
-        {
-          id: 2,
-          text: "Module 2",
-          acronym: "M2"
-        },
-        {
-          id: 3,
-          text: "Module 3",
-          acronym: "M3"
-        },
-        {
-          id: 4,
-          text: "Module 4",
-          acronym: "M4"
-        }
-      ]
+      modules: []
     };
   },
+  async created() {
+    const config = {
+      headers: {
+        Accept: "application/json,"
+      }
+    };
+    try {
+      const res = await axios.get(process.env.backUrl + "/modules", config);
+      this.modules = res.data;
+      console.log(this.modules)
+    } catch (error) {
+      console.error(error);
+    }
+  },
   methods: {
-    onSubmit(evt) {
+    onSubmit: evt => {
       evt.preventDefault();
       console.log(this.form);
     },
@@ -124,14 +120,16 @@ export default {
     }
   },
   computed: {
-    passwordLength() {
-      return this.form.password.length > 8;
+    // TODO
+    passwordLength: () => {
+      // return this.form.password.length > 8;
     },
-    passwordMatch() {
-      return (
-        this.form.confPassword.length > 8 &&
-        this.form.password === this.form.confPassword
-      );
+    // TODO
+    passwordMatch: () => {
+      // return (
+      //   this.form.confPassword.length > 8 &&
+      //   this.form.password === this.form.confPassword
+      // );
     }
   }
 };
