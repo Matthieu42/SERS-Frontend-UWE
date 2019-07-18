@@ -13,21 +13,22 @@ npm install
 
 ## Usage
 
-For production : 
+For production :
 ```sh
 npm build
 ```
 
-For devellopement : 
+For development :
 ```sh
 npm run dev
 ```
+Then go to localhost:3000
 
 ## Author
 
 👤 **Matthieu Tinnes**
 Github: [Matthieu42](https://github.com/Matthieu42)
-👤 **Jimmy Fayole**
+👤 **Jimmy Fayolle**
 Github: [Grandroot](https://github.com/Grandroot)
 👤 **Corentin Grard**
 Github: [CorentinGrard](https://github.com/CorentinGrard)

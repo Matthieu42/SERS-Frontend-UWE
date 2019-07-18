@@ -132,6 +132,18 @@ export default {
         a.form.password === a.form.confPassword
       );
     }
+  },
+    head() {
+    return {
+      title: "New Student",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: "Add a student to the system"
+        }
+      ]
+    };
   }
 };
 </script>

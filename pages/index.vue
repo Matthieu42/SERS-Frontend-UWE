@@ -39,15 +39,27 @@ export default {
       try {
         const res = await axios.post(process.env.frontUrl + "login", config);
         console.log(res.data);
-        if(res.data.answer == "failure") {
-          alert('Authentification failed')
+        if (res.data.answer == "failure") {
+          alert("Authentification failed");
         } else {
-          alert('Authentification successed')
+          alert("Authentification successed");
         }
       } catch (error) {
         console.error(error);
       }
     }
+  },
+  head() {
+    return {
+      title: "Login",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: "Login Page"
+        }
+      ]
+    };
   }
 };
 </script>
