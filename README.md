@@ -28,7 +28,7 @@ Then go to localhost:3000
 
 👤 **Matthieu Tinnes**
 Github: [Matthieu42](https://github.com/Matthieu42)
-👤 **Jimmy FayoLle**
+👤 **Jimmy Fayolle**
 Github: [Grandroot](https://github.com/Grandroot)
 👤 **Corentin Grard**
 Github: [CorentinGrard](https://github.com/CorentinGrard)
