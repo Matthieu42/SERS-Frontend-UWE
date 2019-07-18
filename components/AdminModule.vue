@@ -1,6 +1,6 @@
 <template>
   <b-container class="bv-example-row">
-  <b-row id="app">
+    <b-row id="app">
       <b-col>[{{ acronym }}] {{ name }}</b-col>
   </b-row>
   <b-row>

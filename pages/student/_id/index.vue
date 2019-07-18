@@ -2,7 +2,7 @@
   <div>
     <h2>{{ user.name }}</h2>
     email : {{ user.email }}
-    <br>
+    <br />
     address : {{ user.address }}
     <StudentTab :userId="this.$route.params.id" />
   </div>

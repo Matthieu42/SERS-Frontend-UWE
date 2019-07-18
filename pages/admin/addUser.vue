@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     async onSubmit(evt) {
-      console.log(this)
+      console.log(this);
       evt.preventDefault();
       const config = {
         headers: {
@@ -105,13 +105,17 @@ export default {
         body: this.form
       };
       try {
-        const res = await axios.post(process.env.frontUrl + "/signup", this.form ,config);
+        const res = await axios.post(
+          process.env.frontUrl + "/signup",
+          this.form,
+          config
+        );
         var resData = res.data;
-        console.log(resData)
-        if(resData.answer == "failure") {
-          alert('inscription failed')
+        console.log(resData);
+        if (resData.answer == "failure") {
+          alert("inscription failed");
         } else {
-          alert('Success')
+          alert("Success");
         }
       } catch (error) {
         console.error(error);

@@ -1,7 +1,7 @@
 <template>
   <b-list-group-item>
     <b-list-group horizontal>
-      <b-list-group-item>[{{ moduleAcronym }}] {{ moduleName }} : {{ average }} </b-list-group-item>
+      <b-list-group-item>[{{ moduleAcronym }}] {{ moduleName }} : {{ average }}</b-list-group-item>
       <b-list-group-item
         v-for="component in components"
         :key="component.id"
@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       components: [],
-      average: 0,
+      average: 0
     };
   },
   async created() {
@@ -44,7 +44,7 @@ export default {
       console.error(error);
     }
     this.components.forEach(component => {
-      this.average += component.note * (component.percentage/100)
+      this.average += component.note * (component.percentage / 100);
     });
   }
 };

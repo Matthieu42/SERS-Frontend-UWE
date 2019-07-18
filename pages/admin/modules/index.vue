@@ -1,7 +1,8 @@
 <template>
   <div>
     <b-list-group>
-      <AdminModule id="app2"
+      <AdminModule
+        id="app2"
         v-for="module in this.modules"
         :key="module.id"
         :name="module.title"
@@ -14,7 +15,7 @@
 
 <script>
 import AdminModule from "~/components/AdminModule";
-import axios from 'axios';
+import axios from "axios";
 export default {
   components: {
     AdminModule
@@ -24,16 +25,16 @@ export default {
       bordered: true,
       modules: null,
       striped: true
-    }
+    };
   },
-    async created() {
+  async created() {
     const config = {
       headers: {
         Accept: "application/json"
       }
     };
     try {
-      console.log(process.env.frontUrl)
+      console.log(process.env.frontUrl);
       const res = await axios.get(process.env.frontUrl + "/modules", config);
       this.modules = res.data;
       var res2;
@@ -45,14 +46,11 @@ export default {
       console.error(error);
     }
   }
-}
-
+};
 </script>
 
 <style>
-
-  #app2 {
-    margin-top: 20px;
-  }
-
+#app2 {
+  margin-top: 20px;
+}
 </style>
