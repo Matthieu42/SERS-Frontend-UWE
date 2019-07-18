@@ -4,24 +4,15 @@
       <b-form-group id="email-group" label="Email address:" label-for="email">
         <b-form-input
           id="email"
-          v-model="form.email"
+          v-model="form.mail"
           type="email"
           required
           placeholder="Enter email"
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="firstname-group" label="Student First Name:" label-for="firstname">
-        <b-form-input
-          id="firstname"
-          v-model="form.firstName"
-          required
-          placeholder="Enter frist name"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="lastname-group" label="Student Last Name:" label-for="lastname">
-        <b-form-input id="lastname" v-model="form.lastName" required placeholder="Enter last name"></b-form-input>
+      <b-form-group id="name-group" label="Student Name:" label-for="name">
+        <b-form-input id="name" v-model="form.name" required placeholder="Enter name"></b-form-input>
       </b-form-group>
 
       <b-form-group id="address-group" label="Address:" label-for="address">
@@ -80,9 +71,8 @@ export default {
   data() {
     return {
       form: {
-        email: "",
-        firstName: "",
-        lastName: "",
+        mail: "",
+        name: "",
         address: "",
         password: "",
         confPassword: "",
@@ -105,15 +95,28 @@ export default {
     }
   },
   methods: {
-    onSubmit: evt => {
+    async onSubmit(evt) {
+      console.log(this)
       evt.preventDefault();
+      const config = {
+        headers: {
+          Accept: "application/json"
+        },
+        body: this.form
+      };
+      try {
+        const res = await axios.post(process.env.frontUrl + "signup", config);
+        console.log(res)
+      } catch (error) {
+        console.error(error);
+      }
     }
   },
   computed: {
-    passwordLength: (a) => {
+    passwordLength: a => {
       return a.form.password.length > 8;
     },
-    passwordMatch: (a) => {
+    passwordMatch: a => {
       return (
         a.form.confPassword.length > 8 &&
         a.form.password === a.form.confPassword

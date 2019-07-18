@@ -26,12 +26,8 @@
       :tbody-tr-class="needResit"
     >
       <template slot="name" slot-scope="row">
-        <nuxt-link :to="'/student/' + row.value.id">{{ row.value }}</nuxt-link>
+        <nuxt-link :to="'/student/' + row.item.id">{{ row.value }}</nuxt-link>
       </template>
-
-      <template slot="email" slot-scope="row">{{ row.value }}</template>
-
-      <template slot="address" slot-scope="row">{{ row.value }}</template>
 
       <template slot="actions" slot-scope="row">
         <b-button
@@ -41,15 +37,7 @@
       </template>
       <template slot="row-details" slot-scope="row">
         <b-card>
-          <b-list-group>
-            <StudentModule
-              v-for="module in row.item.modules"
-              :key="module.id"
-              :name="module.name"
-              :acronym="module.acronym"
-              :marks="module.marks"
-            />
-          </b-list-group>
+          <StudentTab :userId="row.item.id"/>
         </b-card>
       </template>
     </b-table>
@@ -57,12 +45,12 @@
 </template>
 
 <script>
-import StudentModule from "~/components/StudentModule";
+import StudentTab from "~/components/StudentTab";
 import axios from "axios";
 
 export default {
   components: {
-    StudentModule
+    StudentTab
   },
   data() {
     return {

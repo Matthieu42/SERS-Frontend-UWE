@@ -1,20 +1,21 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="info">
+    <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand href="/">SRES</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item>
-            <nuxt-link to="/student/marks">Student</nuxt-link>
-          </b-nav-item>
+          <b-nav-item href="/student/1">Student</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
-          <b-nav-item>
-            <nuxt-link to="/admin/users">Students</nuxt-link>
-          </b-nav-item>
+          <b-nav-item-dropdown text="Administration" right>
+            <b-dropdown-item href="/admin/addUser">Add User</b-dropdown-item>
+            <b-dropdown-item href="/admin/users">List User</b-dropdown-item>
+            <b-dropdown-item href="/admin/modules">List Modules</b-dropdown-item>
+            <b-dropdown-item href="/admin/charts">Charts</b-dropdown-item>
+          </b-nav-item-dropdown>
         </b-navbar-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
