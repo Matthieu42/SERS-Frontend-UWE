@@ -41,6 +41,18 @@ export default {
     } catch (error) {
       console.error(error);
     }
+  },
+  head() {
+    return {
+      title: "Modules List",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: "List of all the modules"
+        }
+      ]
+    };
   }
 };
 </script>

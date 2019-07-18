@@ -94,6 +94,18 @@ export default {
       if (!user) return;
       if (user.average < 40) return "table-danger";
     }
+  },
+  head() {
+    return {
+      title: "Student List",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: "List of all the students"
+        }
+      ]
+    };
   }
 };
 </script>

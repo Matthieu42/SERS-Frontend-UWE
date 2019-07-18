@@ -53,6 +53,18 @@ export default {
     average: (a, b, c) => {
       return (a + b + c) / 3;
     }
+  },
+  head() {
+    return {
+      title: this.user.name,
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.name + " page"
+        }
+      ]
+    };
   }
 };
 </script>
