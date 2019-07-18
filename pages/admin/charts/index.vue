@@ -4,16 +4,16 @@
         <div id="form">
         <b-form-select v-model="selected" :options="dropDownOptions" id="formComp"></b-form-select>
 
-        <label v-if="this.selected == 3 || this.selected == 4" id="formComp">Module :</label>
-        <b-form-input list="input-list" id="input-with-list" v-if="this.selected == 3 || this.selected == 4"></b-form-input>
-        <b-form-datalist id="input-list" :options="listComponent" v-if="this.selected == 3 || this.selected == 4"></b-form-datalist>
+        <label v-if="this.selected == 3" id="formComp">Module :</label>
+        <b-form-input v-model="selectedModule" list="input-list" id="input-with-list" v-if="this.selected == 3 || this.selected == 4"></b-form-input>
+        <b-form-datalist id="input-list" :options="modules" v-if="this.selected == 3 || this.selected == 4"></b-form-datalist>
 
-        <label v-if="this.selected == 2 || this.selected == 4" id="formComp">Student :</label>
-        <b-form-input list="input-list2" id="input-with-list2" v-if="this.selected == 2 || this.selected == 4"></b-form-input>
+        <label v-if="this.selected == 2" id="formComp">Student :</label>
+        <b-form-input v-model="selectedStudent" list="input-list2" id="input-with-list2" v-if="this.selected == 2 || this.selected == 4"></b-form-input>
         <b-form-datalist id="input-list2" :options="listUser" v-if="this.selected == 2 || this.selected == 4"></b-form-datalist>
 
         <p></p>
-        <b-button variant="success" id="formComp">Validate</b-button>
+        <b-button v-on:click="generateGraph" variant="success" id="formComp">Validate</b-button>
         </div>
 
         <div id="app">
@@ -26,17 +26,20 @@
 
 <script>
     import Chart from 'chart.js';
-
+    import axios from 'axios';
     export default {
         data() {
             return {
-                listUser: ['Apple', 'Banana', 'Grape', 'Kiwi', 'Orange'],
-                listComponent: ['Module 1', 'Module 2', 'Module 3', 'Module 4', 'Module 5', 'Module 6'],
+                modules: [],
+                listUser: [],
+                modulesDict: new Map(),
+                userDict: new Map(),
+                selectedModule: '',
+                selectedStudent: '',
                 dropDownOptions: [
                     { value: 1, text: 'mean by module' },
                     { value: 2, text: 'mean by module by student' },
-                    { value: 3, text: 'mean componenents by module' },
-                    { value: 4, text: 'mean componenents by module by student' },
+                    { value: 3, text: 'mean components by module' }
                 ],
                 selected: ''
             }
@@ -45,28 +48,16 @@
         mounted() {
             var chart = this.$refs.chart;
             var ctx = chart.getContext("2d");
-            var myChart = new Chart(ctx, {
+            this.$refs.chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ["Module1", "Module2", "Module3", "Module4", "Module5", "Module6"],
+                    labels: [],
                     datasets: [{
-                        label: 'Mean in module',
-                        data: [50, 75, 66, 30, 89, 42],
+                        label: '',
+                        data: [],
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
                         ],
                         borderColor: [
-                            'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
                         ],
                         borderWidth: 1
                     }]
@@ -75,13 +66,137 @@
                     scales: {
                         yAxes: [{
                             ticks: {
-                                beginAtZero: true
+                                beginAtZero: true,
+                                max: 100
                             }
                         }]
                     }
                 }
             });
-        }
+        },
+    async created() {
+    const config = {
+      headers: {
+        Accept: "application/json"
+      }
+    };
+    try {
+      const res = await axios.get(process.env.frontUrl + "/modules", config);
+      for(var i=0; i < res.data.length; i++) {
+          this.modules.push(res.data[i].title);
+          this.modulesDict.set(res.data[i].title, res.data[i].id)
+      }
+
+      const res2 = await axios.get(process.env.frontUrl + "/users", config);
+      for(var i=0; i < res2.data.length; i++) {
+          this.listUser.push(res2.data[i].name);
+          this.userDict.set(res2.data[i].name, res2.data[i].id)
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  methods: {
+      generateGraph: async function (event) {
+          try {
+            const config = {
+            headers: {
+                Accept: "application/json"
+            }
+            };
+
+            switch(this.selected) {
+                case 1:
+                    var notesModules = [];
+                    var res2;
+                    var listeMean = [];
+
+                    for (i=0; i < this.modules.length; i++) {
+                        var moduleID = this.modulesDict.get(this.modules[i]);
+                        console.log(moduleID)
+                        res2 = await axios.get(process.env.frontUrl + "/NoteExams/module/" + moduleID);
+                        var listNotesModule = res2.data;
+
+                        listeMean.push(0);
+                        var sumCoef = 0;
+                        for(var j=0; j < listNotesModule.length; j++) {
+                            listeMean[listeMean.length - 1] = Number(listeMean[listeMean.length - 1]) + Number(listNotesModule[j].note) * Number(listNotesModule[j].percentage) / 100;
+                            sumCoef += listNotesModule[j].percentage / 100;
+                        }
+                        listeMean[listeMean.length - 1] = listeMean[listeMean.length - 1] / sumCoef;
+                    }
+                    
+                    var mylabels = this.modules;
+                    var myDatas = listeMean;
+                    var myColors = [];
+                    var myColorsBorder = [];
+                    var labelLegend = 'Mean for each module'
+
+                    for(var i=0; i < myDatas.length; i++) {
+                        
+                        if(myDatas[i] < 50) {
+                            myColors.push('rgba(255, 99, 132, 0.2)');
+                            myColorsBorder.push('rgba(255,99,132,1)');
+                        } else {
+                            myColors.push('rgba(75, 192, 192, 0.2)');
+                            myColorsBorder.push('rgba(75, 192, 192, 1)');
+                        }
+                    }
+                    this.$refs.chart.data.labels = mylabels;
+                    this.$refs.chart.data.datasets[0].backgroundColor = myColors;
+                    this.$refs.chart.data.datasets[0].borderColor = myColorsBorder;
+                    this.$refs.chart.data.datasets[0].data = myDatas;
+                    this.$refs.chart.data.datasets[0].label = labelLegend;
+                    this.$refs.chart.update()
+
+                    break;
+                case 2:
+                    var userID = this.userDict.get(this.selectedStudent);
+                    const res = await axios.get(process.env.frontUrl + "/NoteExams/user/" + userID, config);
+                    var myInfos = res.data.note_exams;
+                    console.log(myInfos)
+                    var myMap  = new Map();
+
+                    for(var i=0; i < myInfos.length; i++) {
+                        if (!myMap.has(myInfos[i].exam.component.modules.title)) {
+                            myMap.set(myInfos[i].exam.component.modules.title, 0)
+                        }
+                        myMap.set(myInfos[i].exam.component.modules.title, (myMap.get(myInfos[i].exam.component.modules.title) + Number(myInfos[i].exam.component.percentage) / 100 * Number(myInfos[i].note)))
+                    }
+                    var mylabels = Array.from(myMap.keys());
+                    var myDatas = [];
+                    var myColors = [];
+                    var myColorsBorder = [];
+                    var labelLegend = 'Mean in module for ' + this.selectedStudent
+                    for(var i=0; i < mylabels.length; i++) {
+                        myDatas.push(myMap.get(mylabels[i]));
+                        if(myMap.get(mylabels[i]) < 50) {
+                            myColors.push('rgba(255, 99, 132, 0.2)');
+                            myColorsBorder.push('rgba(255,99,132,1)');
+                        } else {
+                            myColors.push('rgba(75, 192, 192, 0.2)');
+                            myColorsBorder.push('rgba(75, 192, 192, 1)');
+                        }
+                    }
+
+                    this.$refs.chart.data.labels = mylabels;
+                    this.$refs.chart.data.datasets[0].backgroundColor = myColors;
+                    this.$refs.chart.data.datasets[0].borderColor = myColorsBorder;
+                    this.$refs.chart.data.datasets[0].data = myDatas;
+                    this.$refs.chart.data.datasets[0].label = labelLegend;
+                    this.$refs.chart.update()
+                    break;
+                case 3:
+                    break;
+                default:
+                    alert('Please, select a chart type')
+            }
+          } catch(e) {
+                console.log(e)
+                alert('Missing values')
+          }
+      }
+  }
     }
 </script>
 

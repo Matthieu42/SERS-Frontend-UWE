@@ -105,8 +105,14 @@ export default {
         body: this.form
       };
       try {
-        const res = await axios.post(process.env.frontUrl + "signup", config);
-        console.log(res)
+        const res = await axios.post(process.env.frontUrl + "/signup", this.form ,config);
+        var resData = res.data;
+        console.log(resData)
+        if(resData.answer == "failure") {
+          alert('inscription failed')
+        } else {
+          alert('Success')
+        }
       } catch (error) {
         console.error(error);
       }

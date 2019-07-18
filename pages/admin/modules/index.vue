@@ -2,11 +2,11 @@
   <div>
     <b-list-group>
       <AdminModule id="app2"
-        v-for="module in user.modules"
+        v-for="module in this.modules"
         :key="module.id"
-        :name="module.name"
+        :name="module.title"
         :acronym="module.acronym"
-        :exams="module.exams"
+        :exams=[]
       />
     </b-list-group>
   </div>
@@ -14,7 +14,7 @@
 
 <script>
 import AdminModule from "~/components/AdminModule";
-
+import axios from 'axios';
 export default {
   components: {
     AdminModule
@@ -22,49 +22,23 @@ export default {
   data() {
     return {
       bordered: true,
-      striped: true,
-      user: {
-        username: "BB",
-        modules: [
-          {
-            id: 1,
-            name: "Module 1",
-            acronym: "MD1",
-            exams: 
-              [
-                {
-                  name: "Test1",
-                  date: "15/07/2019"
-                },
-                {
-                  name: "Test2",
-                  date: "15/07/2019"
-                },
-                {
-                  name: "Test3",
-                  date: "15/07/2019"
-                },
-              ]
-          },
-          {
-            id: 1,
-            name: "Module 2",
-            acronym: "MD1",
-            exams: 
-              [
-                {
-                  name: "Test1",
-                  date: "15/07/2019"
-                },
-                {
-                  name: "Test2",
-                  date: "15/07/2019"
-                }
-              ]
-          }
-          
-        ]
+      modules: null,
+      striped: true
+    }
+  },
+    async created() {
+    const config = {
+      headers: {
+        Accept: "application/json"
       }
+    };
+    try {
+      console.log(process.env.frontUrl)
+      const res = await axios.get(process.env.frontUrl + "/modules", config);
+      this.modules = res.data;
+      console.log(this.modules);
+    } catch (error) {
+      console.error(error);
     }
   }
 }
