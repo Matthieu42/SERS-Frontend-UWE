@@ -30,7 +30,7 @@ export default {
         Accept: "application/json"
       }
     };
-    console.log(process.env.frontUrl + "module/user/" + this.userId)
+    console.log(process.env.frontUrl + "module/user/" + this.userId);
     try {
       const res = await axios.get(
         process.env.frontUrl + "module/user/" + this.userId,

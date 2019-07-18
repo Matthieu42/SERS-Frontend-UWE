@@ -37,7 +37,7 @@
       </template>
       <template slot="row-details" slot-scope="row">
         <b-card>
-          <StudentTab :userId="row.item.id"/>
+          <StudentTab :userId="row.item.id" />
         </b-card>
       </template>
     </b-table>
