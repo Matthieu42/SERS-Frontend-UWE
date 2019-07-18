@@ -6,7 +6,7 @@
         :key="module.id"
         :name="module.title"
         :acronym="module.acronym"
-        :exams=[]
+        :exams="module.exams"
       />
     </b-list-group>
   </div>
@@ -36,7 +36,11 @@ export default {
       console.log(process.env.frontUrl)
       const res = await axios.get(process.env.frontUrl + "/modules", config);
       this.modules = res.data;
-      console.log(this.modules);
+      var res2;
+      for(var i=0; i < this.modules.length; i++) {
+          res2 =  await axios.get(process.env.frontUrl + "/component/module/" + this.modules[i].id, config);
+          this.modules[i].exams = res2.data.components;
+      }
     } catch (error) {
       console.error(error);
     }
