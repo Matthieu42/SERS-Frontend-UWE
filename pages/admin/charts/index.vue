@@ -187,6 +187,50 @@
                     this.$refs.chart.update()
                     break;
                 case 3:
+                    moduleID = this.modulesDict.get(this.selectedModule);
+                    console.log(moduleID)
+                    const res3 = await axios.get(process.env.frontUrl + "/NoteExams/module/data/" + moduleID, config);
+                    var myData = res3.data;
+                    console.log(myData)
+                    var listMean = []
+                    var listComponents = []
+                    var mean = 0;
+                    for(var i=1; i <= Object.keys(myData).length; i++) {
+                        mean = 0;
+                        listComponents.push(myData[i].name)
+                        for(var j=0; j < myData[i].marks.length; j++) {
+                            mean += Number(myData[i].marks[j]);
+                        }
+                        mean = mean / myData[i].marks.length;
+                        listMean.push(mean);
+                    }
+                    console.log(listMean)
+
+                    var mylabels = listComponents;
+                    var myDatas = listMean;
+                    var myColors = [];
+                    var myColorsBorder = [];
+                    var labelLegend = 'Mean for each component in ' + this.selectedModule
+
+                    for(var i=0; i < listMean.length; i++) {
+                        
+                        if(listMean[i] < 50) {
+                            myColors.push('rgba(255, 99, 132, 0.2)');
+                            myColorsBorder.push('rgba(255,99,132,1)');
+                        } else {
+                            myColors.push('rgba(75, 192, 192, 0.2)');
+                            myColorsBorder.push('rgba(75, 192, 192, 1)');
+                        }
+                    }
+
+                    this.$refs.chart.data.labels = mylabels;
+                    this.$refs.chart.data.datasets[0].backgroundColor = myColors;
+                    this.$refs.chart.data.datasets[0].borderColor = myColorsBorder;
+                    this.$refs.chart.data.datasets[0].data = myDatas;
+                    this.$refs.chart.data.datasets[0].label = labelLegend;
+                    this.$refs.chart.update()
+
+
                     break;
                 default:
                     alert('Please, select a chart type')
