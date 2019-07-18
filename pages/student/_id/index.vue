@@ -2,25 +2,19 @@
   <div>
     <h2>{{ user.name }}</h2>
     email : {{ user.email }}
-    <b-list-group>
-      <StudentModule
-        v-for="module in modules"
-        :key="module.id"
-        :name="module.name"
-        :acronym="module.acronym"
-        :marks="module.marks"
-      />
-    </b-list-group>
+    <br>
+    address : {{ user.address }}
+    <StudentTab :userId="this.$route.params.id" />
   </div>
 </template>
 
 <script>
-import StudentModule from "~/components/StudentModule";
+import StudentTab from "~/components/StudentTab";
 import axios from "axios";
 
 export default {
   components: {
-    StudentModule
+    StudentTab
   },
   data() {
     return {
@@ -56,9 +50,9 @@ export default {
     }
   },
   computed: {
-    average: (a,b,c) => {
-      return (a+b+c)/3;
-    },
+    average: (a, b, c) => {
+      return (a + b + c) / 3;
+    }
   }
 };
 </script>

@@ -5,6 +5,8 @@
       :key="module.id"
       :userId="userId"
       :moduleId="module.id"
+      :moduleName="module.title"
+      :moduleAcronym="module.acronym"
     />
   </b-list-group>
 </template>
@@ -28,12 +30,13 @@ export default {
         Accept: "application/json"
       }
     };
+    console.log(process.env.frontUrl + "module/user/" + this.userId)
     try {
       const res = await axios.get(
         process.env.frontUrl + "module/user/" + this.userId,
         config
       );
-      this.modules = res.data;
+      this.modules = res.data.modules;
     } catch (error) {
       console.error(error);
     }
