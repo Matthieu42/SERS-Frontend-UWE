@@ -50,13 +50,13 @@
       </b-form-group>
 
       <b-form-group label="Inscription to modules" id="module-group">
-        <b-form-checkbox-group
-          id="module-group"
+        <b-form-checkbox
+          v-for="module in modules"
           v-model="form.modules"
-          :options="modules"
-          name="Inscription to modules"
-          text-field="title"
-        ></b-form-checkbox-group>
+          :key="module.id"
+          :value="module.id"
+          inline
+        >{{ module.title }}</b-form-checkbox>
       </b-form-group>
 
       <b-button type="submit" variant="primary">Submit</b-button>
@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     async onSubmit(evt) {
-      console.log(this);
+      console.log(this.form.modules);
       evt.preventDefault();
       const config = {
         headers: {
@@ -133,7 +133,7 @@ export default {
       );
     }
   },
-    head() {
+  head() {
     return {
       title: "New Student",
       meta: [

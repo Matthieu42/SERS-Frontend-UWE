@@ -7,7 +7,7 @@
       </b-input-group>
       <label class="sr-only" for="password">Password</label>
       <b-input-group class="mb-2 mr-sm-2 mb-sm-0">
-        <b-input id="password" placeholder="Password" v-model="login.password"></b-input>
+        <b-input id="password" type="password" placeholder="Password" v-model="login.password"></b-input>
       </b-input-group>
       <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0">Remember me</b-form-checkbox>
       <b-button type="submit" variant="primary">Login</b-button>
@@ -37,6 +37,7 @@ export default {
         body: this.login
       };
       try {
+        console.log(config)
         const res = await axios.post(process.env.frontUrl + "login", config);
         console.log(res.data);
         if (res.data.answer == "failure") {
