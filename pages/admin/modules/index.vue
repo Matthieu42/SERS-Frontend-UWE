@@ -7,7 +7,7 @@
         :key="module.id"
         :name="module.title"
         :acronym="module.acronym"
-        :exams="module.exams"
+        :moduleId="module.id"
       />
     </b-list-group>
   </div>
