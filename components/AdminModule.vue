@@ -19,9 +19,7 @@ export default {
 
 <style>
   #app {
-    border-style: solid;
-    border-width: 2px;
-    border-color: hsla(209, 50%, 51%, 0.459);
-      border-radius: 2px;
+    background-color: #bccef6;
+    border-radius: 2px;
   }
 </style>
