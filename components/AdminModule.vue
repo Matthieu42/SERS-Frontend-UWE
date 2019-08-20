@@ -29,7 +29,7 @@ export default {
     };
     try {
       const res = await axios.get(
-        process.env.frontUrl + "/component/module/" + this.moduleId,
+        process.env.frontUrl + "component/module/" + this.moduleId,
         config
       );
       this.components = res.data.components;

@@ -88,7 +88,7 @@ export default {
       }
     };
     try {
-      const res = await axios.get(process.env.frontUrl + "/modules", config);
+      const res = await axios.get(process.env.frontUrl + "modules", config);
       this.modules = res.data;
     } catch (error) {
       console.error(error);
@@ -106,7 +106,7 @@ export default {
       };
       try {
         const res = await axios.post(
-          process.env.frontUrl + "/signup",
+          process.env.frontUrl + "signup",
           this.form,
           config
         );

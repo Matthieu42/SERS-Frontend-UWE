@@ -72,7 +72,7 @@ export default {
       }
     };
     try {
-      const res = await axios.get(process.env.frontUrl + "/users", config);
+      const res = await axios.get(process.env.frontUrl + "users", config);
       this.users = res.data;
     } catch (error) {
       console.error(error);

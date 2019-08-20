@@ -31,7 +31,7 @@ export default {
 
     try {
       const res = await axios.get(
-        process.env.frontUrl + "/user/" + this.$route.params.id,
+        process.env.frontUrl + "user/" + this.$route.params.id,
         config
       );
       this.user = res.data;
@@ -41,7 +41,7 @@ export default {
 
     try {
       const res = await axios.get(
-        process.env.frontUrl + "/NoteExams/user/" + this.$route.params.id,
+        process.env.frontUrl + "NoteExams/user/" + this.$route.params.id,
         config
       );
       this.modules = res.data;

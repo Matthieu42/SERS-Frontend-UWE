@@ -81,16 +81,16 @@
       }
     };
     try {
-      const res = await axios.get(process.env.frontUrl + "/modules", config);
+      const res = await axios.get(process.env.frontUrl + "modules", config);
       for(var i=0; i < res.data.length; i++) {
           this.modules.push(res.data[i].title);
           this.modulesDict.set(res.data[i].title, res.data[i].id)
       }
 
-      const res2 = await axios.get(process.env.frontUrl + "/users", config);
-      for(var i=0; i < res2.data.length; i++) {
-          this.listUser.push(res2.data[i].name);
-          this.userDict.set(res2.data[i].name, res2.data[i].id)
+      const res2 = await axios.get(process.env.frontUrl + "users", config);
+      for(var j=0; j < res2.data.length; j++) {
+          this.listUser.push(res2.data[j].name);
+          this.userDict.set(res2.data[j].name, res2.data[j].id)
       }
     } catch (error) {
       console.error(error);
@@ -107,14 +107,13 @@
 
             switch(this.selected) {
                 case 1:
-                    var notesModules = [];
                     var res2;
                     var listeMean = [];
 
                     for (i=0; i < this.modules.length; i++) {
                         var moduleID = this.modulesDict.get(this.modules[i]);
                         console.log(moduleID)
-                        res2 = await axios.get(process.env.frontUrl + "/NoteExams/module/" + moduleID);
+                        res2 = await axios.get(process.env.frontUrl + "NoteExams/module/" + moduleID);
                         var listNotesModule = res2.data;
 
                         listeMean.push(0);
@@ -152,25 +151,25 @@
                     break;
                 case 2:
                     var userID = this.userDict.get(this.selectedStudent);
-                    const res = await axios.get(process.env.frontUrl + "/NoteExams/user/" + userID, config);
+                    const res = await axios.get(process.env.frontUrl + "NoteExams/user/" + userID, config);
                     var myInfos = res.data.note_exams;
                     console.log(myInfos)
                     var myMap  = new Map();
 
-                    for(var i=0; i < myInfos.length; i++) {
-                        if (!myMap.has(myInfos[i].exam.component.modules.title)) {
-                            myMap.set(myInfos[i].exam.component.modules.title, 0)
+                    for(var k=0; k < myInfos.length; k++) {
+                        if (!myMap.has(myInfos[k].exam.component.modules.title)) {
+                            myMap.set(myInfos[k].exam.component.modules.title, 0)
                         }
-                        myMap.set(myInfos[i].exam.component.modules.title, (myMap.get(myInfos[i].exam.component.modules.title) + Number(myInfos[i].exam.component.percentage) / 100 * Number(myInfos[i].note)))
+                        myMap.set(myInfos[k].exam.component.modules.title, (myMap.get(myInfos[k].exam.component.modules.title) + Number(myInfos[k].exam.component.percentage) / 100 * Number(myInfos[k].note)))
                     }
-                    var mylabels = Array.from(myMap.keys());
-                    var myDatas = [];
-                    var myColors = [];
-                    var myColorsBorder = [];
-                    var labelLegend = 'Mean in module for ' + this.selectedStudent
-                    for(var i=0; i < mylabels.length; i++) {
-                        myDatas.push(myMap.get(mylabels[i]));
-                        if(myMap.get(mylabels[i]) < 50) {
+                    mylabels = Array.from(myMap.keys());
+                    myDatas = [];
+                    myColors = [];
+                    myColorsBorder = [];
+                    labelLegend = 'Mean in module for ' + this.selectedStudent
+                    for(var l=0; l < mylabels.length; l++) {
+                        myDatas.push(myMap.get(mylabels[l]));
+                        if(myMap.get(mylabels[l]) < 50) {
                             myColors.push('rgba(255, 99, 132, 0.2)');
                             myColorsBorder.push('rgba(255,99,132,1)');
                         } else {
@@ -189,28 +188,28 @@
                 case 3:
                     moduleID = this.modulesDict.get(this.selectedModule);
                     console.log(moduleID)
-                    const res3 = await axios.get(process.env.frontUrl + "/NoteExams/module/data/" + moduleID, config);
+                    const res3 = await axios.get(process.env.frontUrl + "NoteExams/module/data/" + moduleID, config);
                     var myData = res3.data;
                     console.log(myData)
                     var listMean = []
                     var listComponents = []
                     var mean = 0;
-                    for(var i=1; i <= Object.keys(myData).length; i++) {
+                    for(var m=1; m <= Object.keys(myData).length; m++) {
                         mean = 0;
-                        listComponents.push(myData[i].name)
-                        for(var j=0; j < myData[i].marks.length; j++) {
-                            mean += Number(myData[i].marks[j]);
+                        listComponents.push(myData[m].name)
+                        for(var z=0; z < myData[m].marks.length; z++) {
+                            mean += Number(myData[m].marks[z]);
                         }
-                        mean = mean / myData[i].marks.length;
+                        mean = mean / myData[m].marks.length;
                         listMean.push(mean);
                     }
                     console.log(listMean)
 
-                    var mylabels = listComponents;
-                    var myDatas = listMean;
-                    var myColors = [];
-                    var myColorsBorder = [];
-                    var labelLegend = 'Mean for each component in ' + this.selectedModule
+                    mylabels = listComponents;
+                    myDatas = listMean;
+                    myColors = [];
+                    myColorsBorder = [];
+                    labelLegend = 'Mean for each component in ' + this.selectedModule
 
                     for(var i=0; i < listMean.length; i++) {
                         

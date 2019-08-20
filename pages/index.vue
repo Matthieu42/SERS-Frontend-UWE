@@ -37,7 +37,7 @@ export default {
         body: this.login
       };
       try {
-        console.log(config)
+        console.log(config);
         const res = await axios.post(process.env.frontUrl + "login", config);
         console.log(res.data);
         if (res.data.answer == "failure") {
@@ -67,6 +67,7 @@ export default {
 
 <style>
 #login {
-  padding-top: 50px;
+  padding-left: 24vw;
+  padding-top: 40px;
 }
 </style>

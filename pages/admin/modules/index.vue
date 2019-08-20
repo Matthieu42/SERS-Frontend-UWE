@@ -34,12 +34,11 @@ export default {
       }
     };
     try {
-      console.log(process.env.frontUrl);
-      const res = await axios.get(process.env.frontUrl + "/modules", config);
+      const res = await axios.get(process.env.frontUrl + "modules", config);
       this.modules = res.data;
       var res2;
       for(var i=0; i < this.modules.length; i++) {
-          res2 =  await axios.get(process.env.frontUrl + "/component/module/" + this.modules[i].id, config);
+          res2 =  await axios.get(process.env.frontUrl + "component/module/" + this.modules[i].id, config);
           this.modules[i].exams = res2.data.components;
       }
     } catch (error) {
