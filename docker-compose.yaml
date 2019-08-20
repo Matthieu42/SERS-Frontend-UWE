@@ -1,0 +1,25 @@
+version: '3.7'
+services: 
+
+  sers:
+    build: .
+    image: sers
+    container_name: sers-frontend
+    restart: always
+    networks:
+      - web
+      - internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.port=80"
+      - "traefik.entryPoint=https"
+      - "traefik.backend=sers"
+      - "traefik.frontend.rule=Host:sers.corentin.ml"
+
+
+networks:
+  web:
+    external: true
+  internal:
+    external: false
