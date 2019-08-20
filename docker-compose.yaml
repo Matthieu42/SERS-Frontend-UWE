@@ -12,7 +12,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=web"
-      - "traefik.port=80"
+      - "traefik.port=3000"
       - "traefik.entryPoint=https"
       - "traefik.backend=sers"
       - "traefik.frontend.rule=Host:sers.corentin.ml"
