@@ -26,7 +26,7 @@ export default {
     }]
   },
   env: {
-    frontUrl: process.env.FRONTEND_URL || 'http://localhost:3000/api/',
+    frontUrl: process.env.FRONTEND_URL || 'http://0.0.0.0:3000/api/',
   },
   /*
    ** Customize the progress-bar color
@@ -55,7 +55,7 @@ export default {
   ],
   proxy: {
     '/api': {
-      target: 'http://[::1]:8080',
+      target: 'http://sers-backend:8080',
       pathRewrite: {
         '^/api': '/'
       }
